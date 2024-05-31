@@ -14,7 +14,7 @@ namespace UI.Data
 
         public async Task<List<Customer>> GetCustomersAsync()
         {
-            return await _context.Customers.ToListAsync();
+            return await _context.Customers.Take(100).ToListAsync();
         }
     }
 }
