@@ -1,13 +1,12 @@
 ﻿@page "/fetchdata"
 @using UI.Data
-@using DB.Model
-@inject CustomerService CustomerService
+@inject BookService BookService
 
 <PageTitle>Customers</PageTitle>
 
 <h1>Customers</h1>
 
-@if (customers == null)
+@if (books == null)
 {
     <p><em>Loading...</em></p>
 }
@@ -16,30 +15,16 @@ else
     <table class="table">
         <thead>
             <tr>
+                <th>ID</th>
                 <th>Title</th>
-                <th>First Name</th>
-                <th>Middle Name</th>
-                <th>Last Name</th>
-                <th>Suffix</th>
-                <th>Company Name</th>
-                <th>Sales Person</th>
-                <th>Email Address</th>
-                <th>Phone</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var customer in customers)
+            @foreach (var book in books)
             {
                 <tr>
-                    <td>@customer.Title</td>
-                    <td>@customer.FirstName</td>
-                    <td>@customer.MiddleName</td>
-                    <td>@customer.LastName</td>
-                    <td>@customer.Suffix</td>
-                    <td>@customer.CompanyName</td>
-                    <td>@customer.SalesPerson</td>
-                    <td>@customer.EmailAddress</td>
-                    <td>@customer.Phone</td>
+                    <td>@book.Id</td>
+                    <td>@book.Title</td>
                 </tr>
             }
         </tbody>
@@ -47,10 +32,10 @@ else
 }
 
 @code {
-    private List<Customer>? customers;
+    private List<Book>? books;
 
     protected override async Task OnInitializedAsync()
     {
-        customers = await CustomerService.GetCustomersAsync();
+        books = await BookService.GetBooksAsync();
     }
 }

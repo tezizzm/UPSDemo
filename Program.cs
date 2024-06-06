@@ -1,8 +1,6 @@
-using DB.Model;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
 using Steeltoe.Connector.SqlServer;
 using Steeltoe.Connector.SqlServer.EFCore;
+using Steeltoe.Extensions.Configuration.Kubernetes;
 using Steeltoe.Management.Endpoint;
 using UI.Data;
 
@@ -19,9 +17,10 @@ namespace UI
             builder.Services.AddServerSideBlazor();
 
             builder.AddAllActuators();
+            builder.AddKubernetesConfiguration();
             builder.Services.AddSqlServerHealthContributor(builder.Configuration);
-            builder.Services.AddDbContext<SoiTestContext>(options => options.UseSqlServer(builder.Configuration));
-            builder.Services.AddScoped<CustomerService>();
+            builder.Services.AddDbContext<CddSoiPocContext>(options => options.UseSqlServer(builder.Configuration));
+            builder.Services.AddScoped<BookService>();
 
             var app = builder.Build();
 
