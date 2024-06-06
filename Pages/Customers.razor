@@ -1,0 +1,59 @@
+﻿@page "/customers"
+@using UI.Data
+@using UI.Model
+@inject ContosoService service
+
+<PageTitle>Customers</PageTitle>
+
+<h1>Customers</h1>
+
+@if (customers == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Street Address</th>
+                <th>City</th>
+                <th>State</th>
+                <th>Zip Code</th>
+                <th>Birthday</th>
+                <th>Age</th>
+                <th>Occupation</th>
+                <th>Company</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var customer in customers)
+            {
+                
+                <tr>
+                    <td><a href="/customer/@customer.CustomerKey">@customer.Title @customer.GivenName @customer.MiddleInitial @customer.Surname</a></td>
+                    <td>@customer.StreetAddress</td>
+                    <td>@customer.City</td>
+                    <td>@customer.State</td>
+                    <td>@customer.ZipCode</td>
+                    <td>@customer.Birthday?.ToShortDateString()</td>
+                    <td>@customer.Age</td>
+                    <td>@customer.Occupation</td>
+                    <td>@customer.Company</td>
+                    <td><a href="/orders/@customer.CustomerKey">View Orders</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<UI.Model.Customer>? customers;
+
+    protected override async Task OnInitializedAsync()
+    {
+        customers = await service.GetCustomersAsync();
+    }
+}

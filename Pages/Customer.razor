@@ -1,0 +1,45 @@
+﻿@page "/customer/{customerKey:int}"
+@using UI.Data
+@using UI.Model
+@inject ContosoService service
+
+<PageTitle>@customer?.GivenName @customer?.Surname</PageTitle>
+
+
+
+@if (customer == null)
+{
+    <PageTitle>Customer Details</PageTitle>
+    <h1>Customer Details</h1>
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <PageTitle>@customer.GivenName @customer.Surname</PageTitle>
+    <h1>@customer.GivenName @customer.Surname</h1>
+    <div class="customer-list">
+        <div class="customer-card">
+            <h2>@customer.GivenName @customer.Surname</h2>
+            <p><strong>Title:</strong> @customer.Title</p>
+            <p><strong>Middle Initial:</strong> @customer.MiddleInitial</p>
+            <p><strong>Address:</strong> @customer.StreetAddress, @customer.City, @customer.State, @customer.ZipCode</p>
+            <p><strong>Birthday:</strong> @customer.Birthday?.ToShortDateString()</p>
+            <p><strong>Age:</strong> @customer.Age</p>
+            <p><strong>Occupation:</strong> @customer.Occupation</p>
+            <p><strong>Company:</strong> @customer.Company</p>
+            <p><a href="/orders/@customer.CustomerKey"> View Orders</a></p>
+        </div>
+    </div>
+}
+
+@code {
+    private UI.Model.Customer? customer;
+
+    [Parameter]
+    public int CustomerKey { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        customer = await service.GetCustomerAsync(CustomerKey);
+    }
+}

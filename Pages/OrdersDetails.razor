@@ -1,0 +1,57 @@
+﻿@page "/orderDetails/{orderKey:int}"
+@using UI.Data
+@using UI.Model
+@inject ContosoService service
+
+<PageTitle>Order Details</PageTitle>
+
+<h1>Order Details</h1>
+
+@if (orderRows == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Category</th>
+                <th>Sub Category</th>
+                <th>Manufacturer</th>
+                <th>Brand</th>
+                <th>Name</th>
+                <th>Unit Price</th>
+                <th>Net Price</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var orderRow in orderRows)
+            {
+                <tr>
+                    <td>@orderRow.ProductKeyNavigation?.Category</td>
+                    <td>@orderRow.ProductKeyNavigation?.Subcategory</td>
+                    <td>@orderRow.ProductKeyNavigation?.Manufacturer</td>
+                    <td>@orderRow.ProductKeyNavigation?.Brand</td>
+                    <td>@orderRow.ProductKeyNavigation?.ProductName</td>
+                    <td>@orderRow.UnitPrice</td>
+                    <td>@orderRow.NetPrice</td>
+                    <td><a href="/customer/@orderRow.OrderKeyNavigation?.CustomerKey">View Customer Details</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<OrderRow>? orderRows;
+
+    [Parameter]
+    public int OrderKey { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        orderRows = await service.GetOrderDetailsForOrderAsync(OrderKey);
+    }
+}

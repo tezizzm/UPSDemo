@@ -3,6 +3,7 @@ using Steeltoe.Connector.SqlServer.EFCore;
 using Steeltoe.Extensions.Configuration.Kubernetes;
 using Steeltoe.Management.Endpoint;
 using UI.Data;
+using UI.Model;
 
 namespace UI
 {
@@ -20,7 +21,9 @@ namespace UI
             //builder.AddKubernetesConfiguration();
             builder.Services.AddSqlServerHealthContributor(builder.Configuration);
             builder.Services.AddDbContext<CddSoiPocContext>(options => options.UseSqlServer(builder.Configuration));
+            builder.Services.AddDbContext<ContosoContext>(options => options.UseSqlServer(builder.Configuration));
             builder.Services.AddScoped<BookService>();
+            builder.Services.AddScoped<ContosoService>();
 
             var app = builder.Build();
 

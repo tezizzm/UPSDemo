@@ -1,0 +1,51 @@
+﻿@page "/orders/{customerKey:int}"
+@using UI.Data
+@using UI.Model
+@inject ContosoService service
+
+<PageTitle>Orders</PageTitle>
+
+<h1>Orders</h1>
+
+@if (orders == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Order Date</th>
+                <th>Delivery Date</th>
+                <th>Currency</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in orders)
+            {
+                <tr>
+                    <td>@order.OrderDate?.ToShortDateString()</td>
+                    <td>@order.DeliveryDate?.ToShortDateString()</td>
+                    <td>@order.CurrencyCode</td>
+                    <td><a href="/orderDetails/@order.OrderKey">View Order Details</a></td>
+                    <td><a href="/customer/@order.CustomerKey">View Customer Details</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<Order>? orders;
+
+    [Parameter]
+    public int CustomerKey { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        orders = await service.GetOrdersForCustomerAsync(CustomerKey);
+    }
+}
