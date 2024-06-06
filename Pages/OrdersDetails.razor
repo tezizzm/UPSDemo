@@ -13,6 +13,7 @@
 }
 else
 {
+    <a href="/customer/@orderRows.First().OrderKeyNavigation?.CustomerKey">View Customer Details</a>
     <table class="table">
         <thead>
             <tr>
@@ -37,7 +38,6 @@ else
                     <td>@orderRow.ProductKeyNavigation?.ProductName</td>
                     <td>@orderRow.UnitPrice</td>
                     <td>@orderRow.NetPrice</td>
-                    <td><a href="/customer/@orderRow.OrderKeyNavigation?.CustomerKey">View Customer Details</a></td>
                 </tr>
             }
         </tbody>

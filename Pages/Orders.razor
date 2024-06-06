@@ -7,12 +7,14 @@
 
 <h1>Orders</h1>
 
+
 @if (orders == null)
 {
     <p><em>Loading...</em></p>
 }
 else
 {
+    <a href="/customer/@orders.First().CustomerKey">View Customer Details</a>
     <table class="table">
         <thead>
             <tr>
@@ -31,7 +33,6 @@ else
                     <td>@order.DeliveryDate?.ToShortDateString()</td>
                     <td>@order.CurrencyCode</td>
                     <td><a href="/orderDetails/@order.OrderKey">View Order Details</a></td>
-                    <td><a href="/customer/@order.CustomerKey">View Customer Details</a></td>
                 </tr>
             }
         </tbody>
