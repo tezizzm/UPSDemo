@@ -18,7 +18,7 @@ namespace UI
             builder.Services.AddServerSideBlazor();
 
             builder.AddAllActuators();
-            //builder.AddKubernetesConfiguration();
+            builder.AddKubernetesConfiguration();
             builder.Services.AddSqlServerHealthContributor(builder.Configuration);
             builder.Services.AddDbContext<CddSoiPocContext>(options => options.UseSqlServer(builder.Configuration));
             builder.Services.AddDbContext<ContosoContext>(options => options.UseSqlServer(builder.Configuration));
